@@ -55,7 +55,7 @@ def load_data(directory):
 def main():
     if len(sys.argv) > 2:
         sys.exit("Usage: python degrees.py [directory]")
-    directory = sys.argv[1] if len(sys.argv) == 2 else "large"
+    directory = "C:\\Users\\Admin\\Documents\\GitHub\\CS-81-Work\\Search\\Project0\\degrees\\large"
 
     # Load data from files into memory
     print("Loading data...")
@@ -90,10 +90,43 @@ def shortest_path(source, target):
     that connect the source to the target.
 
     If no possible path, returns None.
-    """
 
-    # TODO
-    raise NotImplementedError
+    We do not have a way to estimate geographical distances between
+    nodes so we cannot use greedy best-first search or A* Search.
+    I will use breadth-first search since it finds the "shallowest"
+    link from one node to another.
+    """
+    source_node = Node(state=source, parent=None, action=None)
+    frontier = QueueFrontier()
+    frontier.add(source_node)
+    explored_nodes = set()
+
+    while True:
+
+        if frontier.empty():
+            return None
+        else:
+            actor = frontier.remove()
+            if actor.state == target: #Goal
+                solved = True
+                steps = list()
+                while actor.action != None:
+                    steps.append((actor.action, actor.state))
+                    actor = actor.parent
+                steps.reverse()
+                return steps
+
+            explored_nodes.add(actor.state)
+            neighbors = neighbors_for_person(actor.state)
+            for neighbor in neighbors:
+                found = False #minor 
+                if neighbor[1] not in explored_nodes and not frontier.contains_state(actor.state) and not found:
+                    new_node = Node(state=neighbor[1], parent=actor, action=neighbor[0])
+                    if new_node.state == target:
+                        frontier = QueueFrontier()
+                        frontier.add(new_node)
+                    frontier.add(new_node)
+
 
 
 def person_id_for_name(name):
