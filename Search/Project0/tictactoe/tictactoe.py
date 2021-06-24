@@ -50,7 +50,7 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    new_board = board.copy()
+    new_board = [row.copy() for row in board]
     if board[action[0]][action[1]] != EMPTY:
         raise Exception("FOR DEBUGGING: You can't make a move on a non-empty tile")
     else:
@@ -135,14 +135,14 @@ def minimax(board):
     if turn == X:
         best_score = float('-inf')
         for action in moves:
-            score = max_value(result(board, action))
+            score = min_value(result(board, action))
             if score > best_score:
                 best_score = score
                 best_move = action
     if turn == O:
         best_score = float('+inf')
         for action in moves:
-            score = min_value(result(board, action))
+            score = max_value(result(board, action))
             if score < best_score:
                 best_score = score
                 best_move = action
@@ -150,4 +150,4 @@ def minimax(board):
     return best_move
 
 test = [['X', 'O', 'X'], ['O', 'X', 'X'], ['O', 'O', 'X']]
-print(terminal(test))
+print()
