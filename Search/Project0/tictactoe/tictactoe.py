@@ -40,7 +40,7 @@ def actions(board):
     """
     moves = set()
     for row in range(len(board)):
-        for col in range(len(row)):
+        for col in range(len(board)):
             if board[row][col] == EMPTY:
                 moves.add((row, col))
     return moves
@@ -93,7 +93,9 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    return (sum(row.count(EMPTY) for row in board) == 0 or winner(board) != None)
+    empty_spaces = sum(row.count(EMPTY) for row in board)
+    win = winner(board)
+    return (empty_spaces == 0 or win != None)
 
 
 def utility(board):
@@ -107,9 +109,45 @@ def utility(board):
         return -1
     return 0
 
+def max_value(board):
+    if terminal(board):
+        return utility(board)
+    v = float('-inf')
+    for action in actions(board):
+        v = max(v, min_value(result(board, action)))
+    return v
+
+def min_value(board):
+    if terminal(board):
+        return utility(board)
+    v = float('+inf')
+    for action in actions(board):
+        v = min(v, max_value(result(board, action)))
+    return v
 
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    raise NotImplementedError
+    turn = player(board)
+    moves = actions(board)
+    best_move = None
+    if turn == X:
+        best_score = float('-inf')
+        for action in moves:
+            score = max_value(result(board, action))
+            if score > best_score:
+                best_score = score
+                best_move = action
+    if turn == O:
+        best_score = float('+inf')
+        for action in moves:
+            score = min_value(result(board, action))
+            if score < best_score:
+                best_score = score
+                best_move = action
+
+    return best_move
+
+test = [['X', 'O', 'X'], ['O', 'X', 'X'], ['O', 'O', 'X']]
+print(terminal(test))

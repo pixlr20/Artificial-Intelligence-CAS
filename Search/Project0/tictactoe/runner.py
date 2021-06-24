@@ -13,9 +13,10 @@ white = (255, 255, 255)
 
 screen = pygame.display.set_mode(size)
 
-mediumFont = pygame.font.Font("OpenSans-Regular.ttf", 28)
-largeFont = pygame.font.Font("OpenSans-Regular.ttf", 40)
-moveFont = pygame.font.Font("OpenSans-Regular.ttf", 60)
+file = "C:\\Users\\sledd\\OneDrive\\Documents\\GitHub\\CS-81-Work\\Search\\Project0\\tictactoe\\OpenSans-Regular.ttf"
+mediumFont = pygame.font.Font(file, 28)
+largeFont = pygame.font.Font(file, 40)
+moveFont = pygame.font.Font(file, 60)
 
 user = None
 board = ttt.initial_state()
