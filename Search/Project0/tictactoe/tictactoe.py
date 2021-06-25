@@ -109,20 +109,31 @@ def utility(board):
         return -1
     return 0
 
-def max_value(board):
+"""
+I implemented alpha-beta pruning after learning about it from the
+wikipedia article: https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning.
+It was helpful for understanding what it meant.
+"""
+def max_value(board, alpha, beta):
     if terminal(board):
         return utility(board)
     v = float('-inf')
     for action in actions(board):
-        v = max(v, min_value(result(board, action)))
+        v = max(v, min_value(result(board, action), alpha, beta))
+        if v >= beta:
+            break
+        alpha = max(alpha, v)
     return v
 
-def min_value(board):
+def min_value(board, alpha, beta):
     if terminal(board):
         return utility(board)
     v = float('+inf')
     for action in actions(board):
-        v = min(v, max_value(result(board, action)))
+        v = min(v, max_value(result(board, action), alpha, beta))
+        if v <= alpha:
+            break
+        v = min(beta, v)
     return v
 
 def minimax(board):
@@ -135,14 +146,14 @@ def minimax(board):
     if turn == X:
         best_score = float('-inf')
         for action in moves:
-            score = min_value(result(board, action))
+            score = min_value(result(board, action), float('-inf'), float('+inf'))
             if score > best_score:
                 best_score = score
                 best_move = action
     if turn == O:
         best_score = float('+inf')
         for action in moves:
-            score = max_value(result(board, action))
+            score = max_value(result(board, action), float('-inf'), float('+inf'))
             if score < best_score:
                 best_score = score
                 best_move = action

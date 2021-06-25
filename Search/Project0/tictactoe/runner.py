@@ -12,8 +12,8 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 
 screen = pygame.display.set_mode(size)
-#C:\\Users\\sledd\\OneDrive\\Documents\\GitHub\\CS-81-Work\\Search\\Project0\\tictactoe\\OpenSans-Regular.ttf
-file = "C:\\Users\\Admin\\Documents\\GitHub\\CS-81-Work\\Search\\Project0\\tictactoe\\OpenSans-Regular.ttf"
+file = "C:\\Users\\sledd\\OneDrive\\Documents\\GitHub\\CS-81-Work\\Search\\Project0\\tictactoe\\OpenSans-Regular.ttf"
+#file = "C:\\Users\\Admin\\Documents\\GitHub\\CS-81-Work\\Search\\Project0\\tictactoe\\OpenSans-Regular.ttf"
 mediumFont = pygame.font.Font(file, 28)
 largeFont = pygame.font.Font(file, 40)
 moveFont = pygame.font.Font(file, 60)
@@ -66,7 +66,7 @@ while True:
                 user = ttt.O
 
     else:
-
+        user = None
         # Draw game board
         tile_size = 80
         tile_origin = (width / 2 - (1.5 * tile_size),
@@ -143,5 +143,5 @@ while True:
                     user = None
                     board = ttt.initial_state()
                     ai_turn = False
-
+        user = ttt.X
     pygame.display.flip()
