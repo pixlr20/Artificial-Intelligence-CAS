@@ -66,7 +66,6 @@ while True:
                 user = ttt.O
 
     else:
-        user = None
         # Draw game board
         tile_size = 80
         tile_origin = (width / 2 - (1.5 * tile_size),
@@ -143,5 +142,4 @@ while True:
                     user = None
                     board = ttt.initial_state()
                     ai_turn = False
-        user = ttt.X
     pygame.display.flip()
