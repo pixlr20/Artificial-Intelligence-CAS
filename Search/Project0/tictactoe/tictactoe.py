@@ -6,7 +6,7 @@ import math
 
 X = "X"
 O = "O"
-EMPTY = None 
+EMPTY = None
 
 
 def initial_state():
@@ -20,8 +20,10 @@ def initial_state():
 
 def player(board):
     """
-    Counting lines based on https://stackoverflow.com/questions/43082149/simple-way-to-count-number-of-specific-elements-in-2d-array-python
-    I thought there would be a simpler way of counting the number of Xs & Os 
+    Returns which player's turn it is.
+
+    Counting lines based on www.tinyurl.com/xw4ha3pn (shortened long url)
+    I thought there would be a simpler way of counting the number of Xs & Os
     then a nested loop so I looked for a way to count specific elements in a 2D
     array online.
     """
@@ -31,8 +33,7 @@ def player(board):
         return X
     else:
         return O
-    
-            
+
 
 def actions(board):
     """
@@ -49,17 +50,19 @@ def actions(board):
 def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
+
+    I must copy each row individually so changing the board on one level
+    of recursion does not change it on every layer (this took me quite some
+    time to figure out).
     """
     new_board = [row.copy() for row in board]
-    if board[action[0]][action[1]] != EMPTY:
-        raise Exception("FOR DEBUGGING: You can't make a move on a non-empty tile")
-    else:
-        new_board[action[0]][action[1]] = player(board)
+    new_board[action[0]][action[1]] = player(board)
     return new_board
+
 
 def find_winner(line):
     """
-    Checks if line has winner or not
+    Helper function that checks if line has winner or not
     """
     if line.count(X) == 3:
         return X
@@ -68,25 +71,30 @@ def find_winner(line):
     else:
         return None
 
+
+def update_result(result, line_winner):
+    """
+    Helper function that consisely changes the variable, result, 
+    if a winner has been found.
+    """
+    return line_winner if line_winner is not None else result
+
+
 def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    for num in range(3):
-        result = find_winner(board[num])
-        if result != None:
-            return result
-        result = find_winner([board[0][num], board[1][num], board[2][num]])
-        if result != None:
-            return result
-
-    result = find_winner([board[0][0], board[1][1], board[2][2]])
-    if result != None:
-        return result
-    result = find_winner([board[0][2], board[1][1], board[2][0]])
-    if result != None:
-        return result
-    return None
+    result = None
+    for n in range(3):
+        #Checks row n
+        result = update_result(result, find_winner(board[n]))
+        #Checks column n
+        result = update_result(result, find_winner([board[0][n], board[1][n], board[2][n]]))
+    
+    #Check diagonals
+    result = update_result(result, find_winner([board[0][0], board[1][1], board[2][2]]))
+    result = update_result(result, find_winner([board[0][2], board[1][1], board[2][0]]))
+    return result
 
 
 def terminal(board):
@@ -94,8 +102,8 @@ def terminal(board):
     Returns True if game is over, False otherwise.
     """
     empty_spaces = sum(row.count(EMPTY) for row in board)
-    win = winner(board)
-    return (empty_spaces == 0 or win != None)
+    champ = winner(board)
+    return (empty_spaces == 0 or champ is not None)
 
 
 def utility(board):
@@ -109,32 +117,52 @@ def utility(board):
         return -1
     return 0
 
-"""
-I implemented alpha-beta pruning after learning about it from the
-wikipedia article: https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning.
-It was helpful for understanding what it meant.
-"""
+
 def max_value(board, alpha, beta):
+    """
+    Returns the highest possible score this state, board, can achieve
+
+    I implemented alpha-beta pruning after learning about it from wikipedia: 
+    https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning.
+    It was helpful for understanding what it meant.
+
+    Alpha is the minimum score the maximizing player knows they can get.
+    Beta is the maximum score the minimizing player knows they can get. 
+    """
     if terminal(board):
         return utility(board)
     v = float('-inf')
     for action in actions(board):
         v = max(v, min_value(result(board, action), alpha, beta))
+        #If the lowest possible score the minimizing player can get in this state, v, is greater
+        #than the the maximum score they're assured of, beta, there is no reason delve further
+        #into this node because the maximizing player will choose a state with a higher score
+        #than beta.
         if v >= beta:
             break
         alpha = max(alpha, v)
     return v
 
+
 def min_value(board, alpha, beta):
+    """
+    Returns the lowest possible score this state, board, can achieve.
+    This also implements alpha-beta pruning.
+    """
     if terminal(board):
         return utility(board)
     v = float('+inf')
     for action in actions(board):
         v = min(v, max_value(result(board, action), alpha, beta))
-        if v <= alpha:
+        #If the highest possible score the maximizing player can get in this state, v, is less
+        #than the the minimum score they're assured of, alpha, there is no reason delve further
+        #into this node because the minimizing player will choose a state with a lower score
+        #than alpha.
+        if v <= alpha: 
             break
-        v = min(beta, v)
+        beta = min(beta, v)
     return v
+
 
 def minimax(board):
     """
@@ -159,6 +187,3 @@ def minimax(board):
                 best_move = action
 
     return best_move
-
-test = [['X', 'O', 'X'], ['O', 'X', 'X'], ['O', 'O', 'X']]
-print()

@@ -103,7 +103,6 @@ def shortest_path(source, target):
     explored_nodes = set()
 
     while True:
-
         if frontier.empty():
             return None
         else:
@@ -120,7 +119,7 @@ def shortest_path(source, target):
             explored_nodes.add(actor.state)
             neighbors = neighbors_for_person(actor.state)
             for neighbor in neighbors:
-                found = False #minor 
+                found = False
                 if neighbor[1] not in explored_nodes and not frontier.contains_state(actor.state) and not found:
                     new_node = Node(state=neighbor[1], parent=actor, action=neighbor[0])
                     if new_node.state == target:
