@@ -8,6 +8,10 @@ X = "X"
 O = "O"
 EMPTY = None
 
+# For readability, I added these constanst
+POS_INF = float('+inf')
+NEG_INF = float('-inf')
+
 
 def initial_state():
     """
@@ -39,11 +43,14 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    moves = set()
+    # The choice of list over set was because when moves is a set
+    # the AI chooses the upper middle box instead of the upper left
+    # corner as its first move as X (mostly an arbitrary decision)
+    moves = list()
     for row in range(len(board)):
         for col in range(len(board)):
             if board[row][col] == EMPTY:
-                moves.add((row, col))
+                moves.append((row, col))
     return moves
 
 
@@ -74,7 +81,7 @@ def find_winner(line):
 
 def update_result(result, line_winner):
     """
-    Helper function that consisely changes the variable, result, 
+    Helper function that consisely changes the variable, result,
     if a winner has been found.
     """
     return line_winner if line_winner is not None else result
@@ -86,14 +93,18 @@ def winner(board):
     """
     result = None
     for n in range(3):
-        #Checks row n
-        result = update_result(result, find_winner(board[n]))
-        #Checks column n
-        result = update_result(result, find_winner([board[0][n], board[1][n], board[2][n]]))
-    
-    #Check diagonals
-    result = update_result(result, find_winner([board[0][0], board[1][1], board[2][2]]))
-    result = update_result(result, find_winner([board[0][2], board[1][1], board[2][0]]))
+        # Checks row n
+        row = board[n]
+        result = update_result(result, find_winner(row))
+        # Checks column n
+        column = [board[0][n], board[1][n], board[2][n]]
+        result = update_result(result, find_winner(column))
+
+    # Check diagonals
+    diagonal_a = [board[0][0], board[1][1], board[2][2]]
+    diagonal_b = [board[0][2], board[1][1], board[2][0]]
+    result = update_result(result, find_winner(diagonal_a))
+    result = update_result(result, find_winner(diagonal_b))
     return result
 
 
@@ -122,22 +133,23 @@ def max_value(board, alpha, beta):
     """
     Returns the highest possible score this state, board, can achieve
 
-    I implemented alpha-beta pruning after learning about it from wikipedia: 
+    I implemented alpha-beta pruning after learning about it from wikipedia:
     https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning.
     It was helpful for understanding what it meant.
 
     Alpha is the minimum score the maximizing player knows they can get.
-    Beta is the maximum score the minimizing player knows they can get. 
+    Beta is the maximum score the minimizing player knows they can get.
     """
     if terminal(board):
         return utility(board)
-    v = float('-inf')
+    v = NEG_INF
     for action in actions(board):
         v = max(v, min_value(result(board, action), alpha, beta))
-        #If the lowest possible score the minimizing player can get in this state, v, is greater
-        #than the the maximum score they're assured of, beta, there is no reason delve further
-        #into this node because the maximizing player will choose a state with a higher score
-        #than beta.
+        # If the lowest possible score the minimizing player can
+        # get in this state, v, is greater than the the maximum score
+        # they're assured of, beta, there is no reason delve further
+        # into this node because the maximizing player will choose
+        # a state with a higher score than beta.
         if v >= beta:
             break
         alpha = max(alpha, v)
@@ -151,17 +163,36 @@ def min_value(board, alpha, beta):
     """
     if terminal(board):
         return utility(board)
-    v = float('+inf')
+    v = POS_INF
     for action in actions(board):
         v = min(v, max_value(result(board, action), alpha, beta))
-        #If the highest possible score the maximizing player can get in this state, v, is less
-        #than the the minimum score they're assured of, alpha, there is no reason delve further
-        #into this node because the minimizing player will choose a state with a lower score
-        #than alpha.
-        if v <= alpha: 
+        # If the highest possible score the maximizing player can
+        # get in this state, v, is less than the the minimum score
+        # they're assured of, alpha, there is no reason delve further
+        # into this node because the minimizing player will choose
+        # a state with a lower score than alpha.
+        if v <= alpha:
             break
         beta = min(beta, v)
     return v
+
+
+def get_best_move(board, moves, best_score, score_func, comp_factor):
+    """
+    Finds the best move for the max or min player
+    using the minimax algorithm by comparing
+    each possible action and calculating their score
+    """
+    best_move = None
+    for action in moves:
+        score = score_func(result(board, action), NEG_INF, POS_INF)
+        # If this is for O, comp_factor = -1 so it'll actually
+        # check if score < best_score since we don't flip the sign
+        # after multiplying by -1
+        if score * comp_factor > best_score * comp_factor:
+            best_score = score
+            best_move = action
+    return best_move
 
 
 def minimax(board):
@@ -172,18 +203,9 @@ def minimax(board):
     moves = actions(board)
     best_move = None
     if turn == X:
-        best_score = float('-inf')
-        for action in moves:
-            score = min_value(result(board, action), float('-inf'), float('+inf'))
-            if score > best_score:
-                best_score = score
-                best_move = action
+        best_move = get_best_move(board, moves, NEG_INF, min_value, 1)
+
     if turn == O:
-        best_score = float('+inf')
-        for action in moves:
-            score = max_value(result(board, action), float('-inf'), float('+inf'))
-            if score < best_score:
-                best_score = score
-                best_move = action
+        best_move = get_best_move(board, moves, POS_INF, max_value, -1)
 
     return best_move

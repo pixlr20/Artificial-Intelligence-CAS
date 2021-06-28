@@ -55,8 +55,7 @@ def load_data(directory):
 def main():
     if len(sys.argv) > 2:
         sys.exit("Usage: python degrees.py [directory]")
-    directory = sys.argv[1] if len(sys.argv) == 2 else "large"
-    #directory = "C:\\Users\\Admin\\Documents\\GitHub\\CS-81-Work\\Search\\Project0\\degrees\\large"
+    directory = sys.argv[1] if len(sys.argv) == 2 else "small"
 
     # Load data from files into memory
     print("Loading data...")
@@ -97,6 +96,8 @@ def shortest_path(source, target):
     I will use breadth-first search since it finds the "shallowest"
     link from one node to another.
     """
+
+    # The state is the actor's id, the action is the common movie with parent
     source_node = Node(state=source, parent=None, action=None)
     frontier = QueueFrontier()
     frontier.add(source_node)
@@ -107,26 +108,33 @@ def shortest_path(source, target):
             return None
         else:
             actor = frontier.remove()
-            if actor.state == target: #Goal
+            if actor.state == target:
                 solved = True
                 steps = list()
-                while actor.action != None:
+                while actor.action is not None:
                     steps.append((actor.action, actor.state))
                     actor = actor.parent
+                # We need to go from source -> target, not target -> source
                 steps.reverse()
                 return steps
 
             explored_nodes.add(actor.state)
             neighbors = neighbors_for_person(actor.state)
             for neighbor in neighbors:
-                found = False
-                if neighbor[1] not in explored_nodes and not frontier.contains_state(actor.state) and not found:
-                    new_node = Node(state=neighbor[1], parent=actor, action=neighbor[0])
+                id = neighbor[1]
+                movie = neighbor[0]
+
+                explored = id in explored_nodes
+                in_frontier = frontier.contains_state(actor.state)
+                if not explored and not in_frontier:
+                    new_node = Node(state=id, parent=actor, action=movie)
                     if new_node.state == target:
+                        # Removes everything besides goal from frontier
                         frontier = QueueFrontier()
                         frontier.add(new_node)
+                        # No other neighborsn need to be explored
+                        break
                     frontier.add(new_node)
-
 
 
 def person_id_for_name(name):
