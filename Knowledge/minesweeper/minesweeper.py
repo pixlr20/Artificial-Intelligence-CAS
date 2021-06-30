@@ -105,27 +105,30 @@ class Sentence():
         """
         Returns the set of all cells in self.cells known to be mines.
         """
-        raise NotImplementedError
+        return self.cells if len(self.cells) == self.count else None
 
     def known_safes(self):
         """
         Returns the set of all cells in self.cells known to be safe.
         """
-        raise NotImplementedError
+        return self.cells if self.count == 0 else None
 
     def mark_mine(self, cell):
         """
         Updates internal knowledge representation given the fact that
         a cell is known to be a mine.
         """
-        raise NotImplementedError
+        if cell in cells:
+            set.remove(cell)
+            self.count = self.count - 1
 
     def mark_safe(self, cell):
         """
         Updates internal knowledge representation given the fact that
         a cell is known to be safe.
         """
-        raise NotImplementedError
+        if cell in self.cells:
+            self.cells.remove(cell)
 
 
 class MinesweeperAI():
@@ -182,7 +185,32 @@ class MinesweeperAI():
             5) add any new sentences to the AI's knowledge base
                if they can be inferred from existing knowledge
         """
-        raise NotImplementedError
+        self.moves_made.add(cell)
+        self.safes.add(cell)
+
+        neighbors = set()
+        #Taken from Minesweeper class
+        for i in range(cell[0] - 1, cell[0] + 2):
+            for j in range(cell[1] - 1, cell[1] + 2):
+                if (i, j) == cell:
+                    continue
+                neighbors.add((i, j))
+        logic = Sentence(neighbors, count)
+        self.knowledge.append(logic)
+        self.mark_safe(cell)
+
+        safe_cells = logic.known_safes()
+        mine_cells = logic.known_mines()
+        for safe_cell in safe_cells:
+            self.mark_safe(safe_cell)
+        for mine_cell in mine_cells:
+            self.mark_mine(mine_cell)
+
+        #Infer knowledge
+        for statement in self.knowledge:
+            shared_cells = statement.cells.union(logic.cells)
+
+                
 
     def make_safe_move(self):
         """
