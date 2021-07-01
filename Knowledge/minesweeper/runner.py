@@ -48,6 +48,7 @@ lost = False
 
 # Show instructions initially
 instructions = True
+runs = 0
 
 while True:
 

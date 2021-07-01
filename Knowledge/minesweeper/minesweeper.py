@@ -1,6 +1,8 @@
 import itertools
 import random
+import sys
 
+random.seed(7225406435981548721)
 
 class Minesweeper():
     """
@@ -32,6 +34,7 @@ class Minesweeper():
 
         # At first, player has found no mines
         self.mines_found = set()
+        
 
     def print(self):
         """
@@ -174,14 +177,38 @@ class MinesweeperAI():
         for sentence in self.knowledge:
             sentence.mark_safe(cell)
 
-
-    def update_cell_knowledge(self, sentence):
-        safe_cells = sentence.known_safes()
-        mine_cells = sentence.known_mines()
+    def search_cells(self, logic):
+        safe_cells = logic.known_safes()
+        mine_cells = logic.known_mines()
         for safe_cell in safe_cells.copy():
             self.mark_safe(safe_cell)
         for mine_cell in mine_cells.copy():
+            print("marking mine")
             self.mark_mine(mine_cell)
+
+
+    def update_cell_knowledge(self, logic):
+        self.search_cells(logic)
+        for statement in self.knowledge:
+            self.search_cells(statement)
+            count_diff = abs(statement.count - logic.count)
+            #statement is a proper subset of logic
+            if statement.cells < logic.cells: 
+                inference = Sentence(logic.cells - statement.cells, count_diff)
+                if inference not in self.knowledge:
+                    self.knowledge.append(inference)
+                    self.update_cell_knowledge(inference)
+            if logic.cells < statement.cells:
+                inference = Sentence(statement.cells - logic.cells, count_diff)
+                if inference not in self.knowledge:
+                    self.knowledge.append(inference)
+                    self.update_cell_knowledge(inference)
+
+    
+    def prune_knowledge(self):
+        for statement in self.knowledge.copy():
+            if len(statement.cells) == 0:
+                self.knowledge.remove(statement)
 
 
     def add_knowledge(self, cell, count):
@@ -200,35 +227,27 @@ class MinesweeperAI():
                if they can be inferred from existing knowledge
         """
         self.moves_made.add(cell)
+        self.mark_safe(cell)
 
         neighbors = set()
         #Taken from Minesweeper class
         for i in range(cell[0] - 1, cell[0] + 2):
             for j in range(cell[1] - 1, cell[1] + 2):
-                if (i, j) == cell or i < 0 or i >= self.height or j < 0 or j >= self.width:
+                out_of_bounds =  (i < 0 or i >= self.height) or (j < 0 or j >= self.width)
+                discovered = (i, j) in self.safes
+                is_cell = (i, j) == cell
+                if is_cell or out_of_bounds or discovered:
                     continue
                 neighbors.add((i, j))
         logic = Sentence(neighbors, count)
+
+        for mine in self.mines:
+            logic.mark_mine(mine)
         
-        self.mark_safe(cell)
         self.knowledge.append(logic)
         self.update_cell_knowledge(logic)
 
-        #Infer knowledge
-        for statement in self.knowledge:
-            self.update_cell_knowledge(statement)
-            count_diff = abs(statement.count - logic.count)
-            #statement is a proper subset of logic
-            if statement.cells < logic.cells: 
-                inference = Sentence(logic.cells - statement.cells, count_diff)
-                if inference not in self.knowledge:
-                    self.knowledge.append(inference)
-                    self.update_cell_knowledge(inference)
-            if logic.cells < statement.cells:
-                inference = Sentence(statement.cells - logic.cells, count_diff)
-                if inference not in self.knowledge:
-                    self.knowledge.append(inference)
-                    self.update_cell_knowledge(inference)
+        self.prune_knowledge()
 
 
     def make_safe_move(self):
