@@ -11,37 +11,45 @@ CKnave = Symbol("C is a Knave")
 
 # Puzzle 0
 # A says "I am both a knight and a knave."
+A_Statement = And(AKnight, AKnave)
 knowledge0 = And(
+    # The first two lines replicate XOR
     Or(AKnight, AKnave),
     Not(And(AKnight, AKnave)),
-    Implication(AKnight, And(AKnight, AKnave)),
-    Implication(AKnave, Not(And(AKnight, AKnave)))
+    # Statements are biconditional because if we know a
+    # statement is true, we know who a person is
+    Biconditional(AKnight, A_Statement),
+    Biconditional(AKnave, Not(A_Statement))
 )
 
 # Puzzle 1
 # A says "We are both knaves."
 # B says nothing.
+A_Statement = And(AKnave, BKnave)
 knowledge1 = And(
-    Or(AKnight, AKnave), #FUNCTION?
+    # For each person, there is another xor statement
+    Or(AKnight, AKnave),
     Not(And(AKnight, AKnave)),
     Or(BKnight, BKnave),
     Not(And(BKnight, BKnave)),
-    Implication(AKnight, And(AKnave, BKnave)),
-    Implication(AKnave, Not(And(AKnave, BKnave)))
+    Biconditional(AKnight, A_Statement),
+    Biconditional(AKnave, Not(A_Statement))
 )
 
 # Puzzle 2
 # A says "We are the same kind."
 # B says "We are of different kinds."
+A_Statement = Or(And(AKnave, BKnave), And(AKnight, BKnight))
+B_Statement = Or(And(BKnight, AKnave), And(BKnave, AKnight))
 knowledge2 = And(
-    Or(AKnight, AKnave), #FUNCTION?
+    Or(AKnight, AKnave),
     Not(And(AKnight, AKnave)),
     Or(BKnight, BKnave),
     Not(And(BKnight, BKnave)),
-    Implication(AKnight, Or(And(AKnave, BKnave), And(AKnight, BKnight))),
-    Implication(AKnave, Not(Or(And(AKnave, BKnave), And(AKnight, BKnight)))),
-    Implication(BKnight, Or(And(BKnight, AKnave), And(BKnave, AKnight))),
-    Implication(BKnave, Not(Or(And(BKnight, AKnave), And(BKnave, AKnight))))
+    Biconditional(AKnight, A_Statement),
+    Biconditional(AKnave, Not(A_Statement)),
+    Biconditional(BKnight, Or(B_Statement)),
+    Biconditional(BKnave, Not(B_Statement))
 )
 
 # Puzzle 3
@@ -49,19 +57,22 @@ knowledge2 = And(
 # B says "A said 'I am a knave'."
 # B says "C is a knave."
 # C says "A is a knight."
+A_Statement = Or(AKnight, AKnave)
+B_Statement = CKnave
+C_Statement = AKnight
 knowledge3 = And(
-    Or(AKnight, AKnave), #FUNCTION?
+    Or(AKnight, AKnave),
     Not(And(AKnight, AKnave)),
     Or(BKnight, BKnave),
     Not(And(BKnight, BKnave)),
     Or(CKnight, CKnave),
     Not(And(CKnight, CKnave)),
-    Implication(AKnight, Or(AKnight, AKnave)),
-    Implication(AKnave, Not(Or(AKnight, AKnave))),
-    Implication(BKnight, CKnave),
-    Implication(BKnave, Not(CKnave)),
-    Implication(CKnight, AKnight),
-    Implication(CKnave, Not(AKnight))
+    Biconditional(AKnight, A_Statement),
+    Biconditional(AKnave, Not(A_Statement)),
+    Biconditional(BKnight, B_Statement),
+    Biconditional(BKnave, Not(B_Statement)),
+    Biconditional(CKnight, C_Statement),
+    Biconditional(CKnave, Not(C_Statement))
 )
 
 
