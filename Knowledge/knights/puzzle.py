@@ -17,7 +17,7 @@ knowledge0 = And(
     Or(AKnight, AKnave),
     Not(And(AKnight, AKnave)),
     # Statements are biconditional because if we know a
-    # statement is true, we know who a person is
+    # statement is true/false, we know who a person is
     Biconditional(AKnight, A_Statement),
     Biconditional(AKnave, Not(A_Statement))
 )
@@ -27,7 +27,7 @@ knowledge0 = And(
 # B says nothing.
 A_Statement = And(AKnave, BKnave)
 knowledge1 = And(
-    # For each person, there is another xor statement
+    # For each person, there is another XOR statement
     Or(AKnight, AKnave),
     Not(And(AKnight, AKnave)),
     Or(BKnight, BKnave),
@@ -46,6 +46,9 @@ knowledge2 = And(
     Not(And(AKnight, AKnave)),
     Or(BKnight, BKnave),
     Not(And(BKnight, BKnave)),
+    # For every statement, there are two biconditionals,
+    # one for if the statement is true and another if
+    # its false
     Biconditional(AKnight, A_Statement),
     Biconditional(AKnave, Not(A_Statement)),
     Biconditional(BKnight, Or(B_Statement)),
@@ -57,6 +60,8 @@ knowledge2 = And(
 # B says "A said 'I am a knave'."
 # B says "C is a knave."
 # C says "A is a knight."
+# We can already tell A is a knight but the computer 
+# must do the actual logic
 A_Statement = Or(AKnight, AKnave)
 B_Statement = CKnave
 C_Statement = AKnight

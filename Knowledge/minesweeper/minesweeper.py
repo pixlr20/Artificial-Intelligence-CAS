@@ -32,7 +32,6 @@ class Minesweeper():
 
         # At first, player has found no mines
         self.mines_found = set()
-        self.board = [[False, False, False, False, False, False, False, False], [False, False, False, False, False, True, False, False], [True, False, False, False, False, False, True, False], [False, True, False, False, False, False, False, True], [False, False, False, False, False, False, False, False], [False, False, False, False, False, False, False, False], [True, False, False, False, True, False, False, True], [False, False, False, False, False, False, False, False]]
 
     def print(self):
         """
@@ -105,17 +104,19 @@ class Sentence():
     def known_mines(self):
         """
         Returns the set of all cells in self.cells known to be mines.
+
+        We can only tell which ones are mines when every cell is a
+        mine otherwise we don't have enough information to choose any
         """
-        # We can only tell which ones are mines when every cell is a
-        # mine otherwise we don't have enough information to choose any
         return self.cells if len(self.cells) == self.count else set()
 
     def known_safes(self):
         """
         Returns the set of all cells in self.cells known to be safe.
+
+        We can only tell which ones are safe when we know there
+        are no mines in the sentence
         """
-        # We can only tell which ones are safe when we know there
-        # are no mines in the sentence
         return self.cells if self.count == 0 else set()
 
     def mark_mine(self, cell):
@@ -180,11 +181,10 @@ class MinesweeperAI():
         Checks if sentance gives new knowledge
         about safe and mine locations
         """
-        safe_cells = logic.known_safes()
-        mine_cells = logic.known_mines()
-        for safe_cell in safe_cells:
+        # copy() avoids error from changing set size during iteration
+        for safe_cell in logic.known_safes().copy():
             self.mark_safe(safe_cell)
-        for mine_cell in mine_cells:
+        for mine_cell in logic.known_mines().copy():
             self.mark_mine(mine_cell)
 
     def add_inference(self, inference):
@@ -194,7 +194,7 @@ class MinesweeperAI():
         """
         if inference not in self.knowledge:
             self.knowledge.append(inference)
-            #We can try making new inferences now
+            # We can try making new inferences now
             self.update_cell_knowledge(inference)
 
     def update_cell_knowledge(self, logic):
@@ -212,7 +212,7 @@ class MinesweeperAI():
 
             # Statement is a proper subset of logic
             if statement.cells < logic.cells:
-                # Get the cells that aren't in the subset and makes
+                # Get the cells that aren't in the subset and make
                 # a new sentence with the the number of mines not
                 # in the subset ("the subset method")
                 difference = logic.cells - statement.cells
@@ -221,7 +221,8 @@ class MinesweeperAI():
 
             # Logic is a proper subset of statement
             if logic.cells < statement.cells:
-                # Uses the subset method but in with logic as the subset
+                # Uses the subset method but with the subset 
+                # and superset flipped
                 difference = statement.cells - logic.cells
                 inference = Sentence(difference, count_diff)
                 self.add_inference(inference)
@@ -250,18 +251,21 @@ class MinesweeperAI():
         self.moves_made.add(cell)
         self.mark_safe(cell)
 
+        # Get neighbors that we know aren't already mines
+        # or safe spaces to gain more knowledge
         neighbors = set()
-        # Taken from Minesweeper class
+        # Partially taken from Minesweeper class
         for i in range(cell[0] - 1, cell[0] + 2):
             for j in range(cell[1] - 1, cell[1] + 2):
                 # Must ensure we avoid coords like (0,-1)
                 i_bounds = i >= 0 and i < self.height
                 j_bounds = j >= 0 and j < self.width
                 not_in_bounds = not(i_bounds and j_bounds)
+                # A cell is not its own neighbor
                 is_cell = (i, j) == cell
 
                 # Update the sentence with previous knowledge to
-                # eliminate conflicting or misleading knowledge
+                # eliminate conflicting or misleading knowledge.
                 discovered = (i, j) in self.safes
                 if is_cell or not_in_bounds or discovered:
                     continue
@@ -275,7 +279,7 @@ class MinesweeperAI():
 
         self.knowledge.append(logic)
         self.update_cell_knowledge(logic)
-        # Reduce clutter
+        # Reduce clutter for simplicity and debugging
         self.prune_knowledge()
 
     def make_safe_move(self):
@@ -302,9 +306,7 @@ class MinesweeperAI():
         for row in range(self.height):
             for col in range(self.width):
                 new_move = (row, col) not in self.moves_made
-                is_mine = (row, col) in self.mines
-                if new_move and not is_mine:
-                    for mine in self.mines:
-                        print(mine)
+                not_mine = (row, col) not in self.mines
+                if new_move and not_mine:
                     return (row, col)
         return None
