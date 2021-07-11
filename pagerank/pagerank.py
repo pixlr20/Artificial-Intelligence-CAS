@@ -2,6 +2,7 @@ import os
 import random
 import re
 import sys
+import math
 
 DAMPING = 0.85
 SAMPLES = 10000
@@ -61,16 +62,22 @@ def transition_model(corpus, page, damping_factor):
     link_count = len(corpus[page])
     non_link_count = len(corpus) - link_count
     
-    linked_prob = damping_factor / link_count
+    if link_count > 0:
+        # if statement stops div by zero error
+        linked_prob = damping_factor / link_count
+    
     non_linked_prob = (1 - damping_factor) / non_link_count
     if link_count == 0:
         non_linked_prob = 1 / non_linked_prob
 
     for link in corpus:
         if link in corpus[page]:
+            # Even though linked_prob is defined in an if staement
+            # this code won't execute for pages with no links so
+            # this is not a concern
             prob_dist[link] = linked_prob
         else:
-            prob_dist[link] = non_link_prov
+            prob_dist[link] = non_linked_prob
     
     return prob_dist
 
@@ -84,7 +91,44 @@ def sample_pagerank(corpus, damping_factor, n):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    raise NotImplementedError
+    visit_count = {page:0 for page in corpus}
+
+    # First Sample
+    cur_page = random.choice(list(corpus.keys()))
+    visit_count[cur_page] = visit_count[cur_page] + 1
+
+    # Subsequent samples
+    for sample in range(n - 1):
+        prob_dist = transition_model(corpus, cur_page, damping_factor)
+        # Strangely .keys() does not return a list so it must be casted
+        pages = list(prob_dist.keys())
+        probs = prob_dist.values()
+
+        # choices() picks from array based on weights (returns a list).
+        # alternatively, you could use list comp and random.choice()
+        # but that approach seems more memory intensive
+        cur_page = random.choices(population=pages, weights=probs)[0]
+        visit_count[cur_page] = visit_count[cur_page] + 1
+    
+    return {page:count/n for (page, count) in visit_count.items()}
+
+
+def link_to_pages(corpus, linkless_pages):
+    """
+    Returns a dictionary that takes a page and returns
+    a list of other pages that link to it
+
+    Based on code from https://tinyurl.com/27h4hd5s
+    """
+    inverted = {page:list() for page in corpus}
+    for page in corpus:
+        for link in corpus[page]:
+            inverted[link].append(page)
+        # We're treating linkess pages as having a link for every page
+        # so we add the all the linkless pages to the list
+        inverted[page] += linkless_pages
+    return inverted
+        
 
 
 def iterate_pagerank(corpus, damping_factor):
@@ -96,7 +140,49 @@ def iterate_pagerank(corpus, damping_factor):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    raise NotImplementedError
+    N = len(corpus)
+    page_ranks = {link:1/N for link in corpus}
+    linkless = [page for page in corpus if len(corpus[page]) == 0]
+    # min_change tracks if all page ranks changed by <= 0.001
+    min_change = False
+    # shows every page that links to the key (a page)
+    links_to = link_to_pages(corpus, linkless)
+    # the constant chance a surfer will randomly go to another page
+    random_choice_prob = (1 - damping_factor) / N
+
+    while not min_change:
+        min_change = True
+        # We only update the page_ranks until after one iteration
+        # so we must save the updated page_ranks for after
+        new_page_ranks = dict()
+
+        for link in corpus:
+            old_pr = page_ranks[link]
+            # The chance the current page is reached by a surfer
+            # clicking a link on another page
+            link_to_prob = 0
+
+            # Loop through all pages that link to current page
+            for page in links_to[link]:
+                num_links = len(corpus[page])
+                pr = page_ranks[page]
+                if num_links == 0:
+                    # If a page is linkless we treat it like it links
+                    # to all pages.
+                    num_links = N
+                prob = damping_factor * (pr / num_links)
+                link_to_prob += prob
+
+            new_pr = link_to_prob + random_choice_prob
+            # If any page rank changes by more than 0.001, we must
+            # go through another iteration
+            if abs(new_pr - old_pr) > 0.001:
+                min_change = False
+            new_page_ranks[link] = new_pr
+        # Update page_ranks after a full iteration
+        page_ranks = new_page_ranks
+
+    return page_ranks
 
 
 if __name__ == "__main__":
