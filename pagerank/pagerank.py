@@ -61,14 +61,14 @@ def transition_model(corpus, page, damping_factor):
     prob_dist = dict()
     link_count = len(corpus[page])
     non_link_count = len(corpus) - link_count
-    
+
     if link_count > 0:
         # if statement stops div by zero error
         linked_prob = damping_factor / link_count
-    
+
     non_linked_prob = (1 - damping_factor) / non_link_count
     if link_count == 0:
-        non_linked_prob = 1 / non_linked_prob
+        non_linked_prob = 1 / non_link_count
 
     for link in corpus:
         if link in corpus[page]:
@@ -78,7 +78,10 @@ def transition_model(corpus, page, damping_factor):
             prob_dist[link] = linked_prob
         else:
             prob_dist[link] = non_linked_prob
-    
+    if(sum(prob_dist.values()) != 1):
+        for prob in prob_dist.values():
+            print(prob)
+        raise Exception(sum(prob_dist.values()))
     return prob_dist
 
 
@@ -91,7 +94,7 @@ def sample_pagerank(corpus, damping_factor, n):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    visit_count = {page:0 for page in corpus}
+    visit_count = {page: 0 for page in corpus}
 
     # First Sample
     cur_page = random.choice(list(corpus.keys()))
@@ -109,8 +112,10 @@ def sample_pagerank(corpus, damping_factor, n):
         # but that approach seems more memory intensive
         cur_page = random.choices(population=pages, weights=probs)[0]
         visit_count[cur_page] = visit_count[cur_page] + 1
-    
-    return {page:count/n for (page, count) in visit_count.items()}
+
+    if(sum([count/n for count in visit_count.values()]) != 1):
+        raise Exception(sum([count/n for count in visit_count.values()]))
+    return {page: count/n for (page, count) in visit_count.items()}
 
 
 def link_to_pages(corpus, linkless_pages):
@@ -120,7 +125,7 @@ def link_to_pages(corpus, linkless_pages):
 
     Based on code from https://tinyurl.com/27h4hd5s
     """
-    inverted = {page:list() for page in corpus}
+    inverted = {page: list() for page in corpus}
     for page in corpus:
         for link in corpus[page]:
             inverted[link].append(page)
@@ -128,7 +133,6 @@ def link_to_pages(corpus, linkless_pages):
         # so we add the all the linkless pages to the list
         inverted[page] += linkless_pages
     return inverted
-        
 
 
 def iterate_pagerank(corpus, damping_factor):
@@ -141,7 +145,7 @@ def iterate_pagerank(corpus, damping_factor):
     PageRank values should sum to 1.
     """
     N = len(corpus)
-    page_ranks = {link:1/N for link in corpus}
+    page_ranks = {link: 1/N for link in corpus}
     linkless = [page for page in corpus if len(corpus[page]) == 0]
     # min_change tracks if all page ranks changed by <= 0.001
     min_change = False
@@ -181,7 +185,8 @@ def iterate_pagerank(corpus, damping_factor):
             new_page_ranks[link] = new_pr
         # Update page_ranks after a full iteration
         page_ranks = new_page_ranks
-
+    if(sum(page_ranks.values()) != 1):
+        raise Exception("uh oh")
     return page_ranks
 
 

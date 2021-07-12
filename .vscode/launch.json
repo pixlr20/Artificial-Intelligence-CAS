@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args":[".\\pagerank\\corpus0"]
+            "args":[".\\pagerank\\corpus2"]
         }
     ]
 }
