@@ -1,6 +1,8 @@
-import random
-d = {random.randint(0,10): random.randint(0,100) for n in range(50)}
-print(d)
-x = sorted(d, key=lambda x: d[x])
-for key in x:
-    print(str(key) + " " + str(d[key]))
+import nltk
+
+t = nltk.Tree.fromstring("(S (NP (D the) (N dog)) (VP (V chased) (NP (D the) (N cat))))")
+t.pretty_print()
+
+for subtree in t.subtrees(lambda t: t.label() == 'NP'):
+    subtree.pretty_print()
+    print(subtree.subtrees(lambda t: t.label() == 'NP'))

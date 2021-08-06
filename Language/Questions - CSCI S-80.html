@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://cs50.harvard.edu/summer/ai/2021/projects/6/questions/ -->
+<html lang="en-us" class="wf-ptsans-n7-active wf-ptsans-n4-active wf-active"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta property="og:description" content="">
+
+        <meta property="og:image" content=""><meta property="og:title" content="Questions - CSCI S-80">
+
+        <link href="https://cs50.harvard.edu/summer/ai/2021/favicon.ico?1627689890" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="./Questions - CSCI S-80_files/webfont.js.download"></script>
+
+        <!-- http://getbootstrap.com/docs/4.6/getting-started/introduction/ -->
+        <script src="./Questions - CSCI S-80_files/jquery.min.js.download"></script>
+        <script src="./Questions - CSCI S-80_files/bootstrap.bundle.min.js.download"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="./Questions - CSCI S-80_files/bootstrap-table.min.css" rel="stylesheet">
+        <script src="./Questions - CSCI S-80_files/bootstrap-table.min.js.download"></script>
+        <script src="./Questions - CSCI S-80_files/bootstrap-table-mobile.min.js.download"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        <link href="./Questions - CSCI S-80_files/all.min.css" rel="stylesheet">
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="./Questions - CSCI S-80_files/luxon.min.js.download"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- https://www.jsdelivr.com/package/npm/mathjax?path=es5 -->
+        <script crossorigin="anonymous" integrity="sha256-+nfSJ1LiSvANSK3wvi6FjM+oFwoIQvURU1frozp5z6o=" src="./Questions - CSCI S-80_files/tex-chtml.js.download"></script><style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="./Questions - CSCI S-80_files/intersection-observer.js.download"></script>
+        <script src="./Questions - CSCI S-80_files/lazyload.min.js.download"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <!-- https://www.jsdelivr.com/package/npm/iframe-resizer?path=js -->
+        <script crossorigin="anonymous" integrity="sha256-S8f0Q/V9VcfrqYgWo9EFS9zuDMdPTBMC+CBW0RjxQbs=" src="./Questions - CSCI S-80_files/iframeResizer.min.js.download"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks -->
+        <script src="./Questions - CSCI S-80_files/scratchblocks-v3.5.2-min.js.download"></script><style><![CDATA[ .sb-label {
+      font-family: Lucida Grande, Verdana, Arial, DejaVu Sans, sans-serif;
+      font-weight: bold;
+      fill: #fff;
+      font-size: 10px;
+      word-spacing: +1px;
+    }
+
+    .sb-obsolete { fill: #d42828; }
+    .sb-motion { fill: #4a6cd4; }
+    .sb-looks { fill: #8a55d7; }
+    .sb-sound { fill: #bb42c3; }
+    .sb-pen { fill: #0e9a6c;  }
+    .sb-events { fill: #c88330; }
+    .sb-control { fill: #e1a91a; }
+    .sb-sensing { fill: #2ca5e2; }
+    .sb-operators { fill: #5cb712; }
+    .sb-variables { fill: #ee7d16; }
+    .sb-list { fill: #cc5b22 }
+    .sb-custom { fill: #632d99; }
+    .sb-custom-arg { fill: #5947b1; }
+    .sb-extension { fill: #4b4a60; }
+    .sb-grey { fill: #969696; }
+
+    .sb-bevel {
+      filter: url(#bevelFilter);
+    }
+
+    .sb-input {
+      filter: url(#inputBevelFilter);
+    }
+    .sb-input-number,
+    .sb-input-string,
+    .sb-input-number-dropdown {
+      fill: #fff;
+    }
+    .sb-literal-number,
+    .sb-literal-string,
+    .sb-literal-number-dropdown,
+    .sb-literal-dropdown {
+      font-weight: normal;
+      font-size: 9px;
+      word-spacing: 0;
+    }
+    .sb-literal-number,
+    .sb-literal-string,
+    .sb-literal-number-dropdown {
+      fill: #000;
+    }
+
+    .sb-darker {
+      filter: url(#inputDarkFilter);
+    }
+
+    .sb-outline {
+      stroke: #fff;
+      stroke-opacity: 0.2;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .sb-define-hat-cap {
+      stroke: #632d99;
+      stroke-width: 1;
+      fill: #8e2ec2;
+    }
+
+    .sb-comment {
+      fill: #ffffa5;
+      stroke: #d0d1d2;
+      stroke-width: 1;
+    }
+    .sb-comment-line {
+      fill: #ffff80;
+    }
+    .sb-comment-label {
+      font-family: Helevetica, Arial, DejaVu Sans, sans-serif;
+      font-weight: bold;
+      fill: #5c5d5f;
+      word-spacing: 0;
+      font-size: 12px;
+    }
+
+    .sb-diff {
+      fill: none;
+      stroke: #000;
+    }
+    .sb-diff-ins {
+      stroke-width: 2px;
+    }
+    .sb-diff-del {
+      stroke-width: 3px;
+    }
+  ]]></style><style><![CDATA[ .sb3-label {
+      font: 500 12pt Helevetica Neue, Helvetica, sans-serif;
+      fill: #fff;
+      word-spacing: +1pt;
+    }
+
+    .sb3-motion { fill: #4c97ff; stroke: #3373cc; }
+    .sb3-motion-alt { fill: #4280d7; }
+    .sb3-motion-dark { fill: #4c97ff; }
+    .sb3-looks { fill: #9966ff; stroke: #774dcb; }
+    .sb3-looks-alt { fill: #855cd6; }
+    .sb3-looks-dark { fill: #bd42bd; }
+    .sb3-sound { fill: #cf63cf; stroke: #bd42bd; }
+    .sb3-sound-alt { fill: #c94fc9; }
+    .sb3-sound-dark { fill: #bd42bd; }
+    .sb3-control { fill: #ffab19; stroke: #cf8b17; }
+    .sb3-control-alt { fill: #ec9c13; }
+    .sb3-control-dark { fill: #cf8b17; }
+    .sb3-events { fill: #ffbf00; stroke: #cc9900; }
+    .sb3-events-alt { fill: #e6ac00; }
+    .sb3-events-dark { fill: #cc9900; }
+    .sb3-sensing { fill: #5cb1d6; stroke: #2e8eb8; }
+    .sb3-sensing-alt { fill: #47a8d1; }
+    .sb3-sensing-dark { fill: #2e8eb8; }
+    .sb3-operators { fill: #59c059; stroke: #389438; }
+    .sb3-operators-alt { fill: #46b946; }
+    .sb3-operators-dark { fill: #389438; }
+    .sb3-variables { fill: #ff8c1a; stroke: #db6e00; }
+    .sb3-variables-alt { fill: #ff8000; }
+    .sb3-variables-dark { fill: #db6e00; }
+    .sb3-list { fill: #ff661a; stroke: #e64d00; }
+    .sb3-list-alt { fill: #ff5500; }
+    .sb3-list-dark { fill: #e64d00; }
+    .sb3-custom { fill: #ff6680; stroke: #ff3355; }
+    .sb3-custom-alt { fill: #ff4d6a; }
+    .sb3-custom-dark { fill: #ff3355; }
+    .sb3-custom-arg { fill: #ff6680; stroke: #ff3355; }
+
+    /* extension blocks, e.g. pen */
+    .sb3-extension { fill: #0fbd8c; stroke: #0b8e69; }
+    .sb3-extension-alt { fill: #0da57a; }
+    .sb3-extension-line { stroke: #0da57a; }
+    .sb3-extension-dark { fill: #0b8e69; }
+
+    /* obsolete colors: chosen by hand, indicates invalid blocks */
+    .sb3-obsolete { fill: #ed4242; stroke: #ca2b2b; }
+    .sb3-obsolete-alt { fill: #db3333; }
+    .sb3-obsolete-dark { fill: #ca2b2b; }
+
+    /* grey: special color from the Scratch 3.0 design mockups */
+    .sb3-grey { fill: #bfbfbf; stroke: #909090; }
+    .sb3-grey-alt { fill: #b2b2b2; }
+    .sb3-grey-dark { fill: #909090; }
+
+    .sb3-input-color {
+      stroke: #fff;
+    }
+
+    .sb3-input-number,
+    .sb3-input-string {
+      fill: #fff;
+    }
+    .sb3-literal-number,
+    .sb3-literal-string,
+    .sb3-literal-number-dropdown,
+    .sb3-literal-dropdown {
+      word-spacing: 0;
+    }
+    .sb3-literal-number,
+    .sb3-literal-string {
+      fill: #575e75;
+    }
+
+    .sb3-comment {
+      fill: #ffffa5;
+      stroke: #d0d1d2;
+      stroke-width: 1;
+    }
+    .sb3-comment-line {
+      fill: #ffff80;
+    }
+    .sb3-comment-label {
+      font: 400 12pt Helevetica Neue, Helvetica, sans-serif;
+      fill: #000;
+      word-spacing: 0;
+    }
+
+    .sb3-diff {
+      fill: none;
+      stroke: #000;
+    }
+    .sb3-diff-ins {
+      stroke-width: 2px;
+    }
+    .sb3-diff-del {
+      stroke-width: 3px;
+    }
+  ]]></style>
+
+        
+
+        <link href="./Questions - CSCI S-80_files/page.css" rel="stylesheet">
+        <link rel="stylesheet" href="./Questions - CSCI S-80_files/css" media="all"><script src="./Questions - CSCI S-80_files/jekyll-theme-cs50.js.download"></script>
+
+        <script>
+            window.CS50 = {
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Questions - CSCI S-80</title>
+
+
+    <style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+    <body class="" data-new-gr-c-s-check-loaded="14.1024.0" data-gr-ext-installed="">
+
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-md" style="height: 600px; top: 0px;">
+ 
+                    <header><h1 data-id="csci-s-80"><a href="https://cs50.harvard.edu/summer/ai/2021/">CSCI S-80</a></h1>
+
+<h2 data-id="introduction-to-artificial-intelligence-with-python">Introduction to Artificial Intelligence with Python</h2>
+
+<p><a href="https://www.summer.harvard.edu/">Harvard Summer School</a><br>
+Summer 2021</p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-md-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-md-block" id="nav"><hr>
+
+<ol start="0">
+  <li><a href="https://cs50.harvard.edu/summer/ai/2021/#search">Search</a></li>
+  <li><a href="https://cs50.harvard.edu/summer/ai/2021/#knowledge">Knowledge</a></li>
+  <li><a href="https://cs50.harvard.edu/summer/ai/2021/#uncertainty">Uncertainty</a></li>
+  <li><a href="https://cs50.harvard.edu/summer/ai/2021/#optimization">Optimization</a></li>
+  <li><a href="https://cs50.harvard.edu/summer/ai/2021/#learning">Learning</a></li>
+  <li><a href="https://cs50.harvard.edu/summer/ai/2021/#neural-networks">Neural Networks</a></li>
+  <li><a href="https://cs50.harvard.edu/summer/ai/2021/#language">Language</a></li>
+</ol>
+
+<hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://edstem.org/us/join/ddkTdK">Ed Discussion</a> for Q&amp;A</li>
+</ul>
+
+<hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.harvard.edu/summer/ai/2021/">Announcements</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.harvard.edu/summer/ai/2021/lectures/">Lectures</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.harvard.edu/summer/ai/2021/hours/">Office Hours</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.harvard.edu/summer/ai/2021/projects/">Projects</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.harvard.edu/summer/ai/2021/sections/">Sections</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.harvard.edu/summer/ai/2021/staff/">Staff</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.harvard.edu/summer/ai/2021/syllabus/">Syllabus</a></li>
+</ul></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-md" style="margin-bottom: 267px; margin-top: 0px;">
+
+                    <a data-id="" id="questions" style="top: 0px;"></a><h1><a data-id="" href="https://cs50.harvard.edu/summer/ai/2021/projects/6/questions/#questions">Questions</a></h1>
+
+<p>Write an AI to answer questions.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python questions.py corpus
+Query: What are the types of supervised learning?
+Types of supervised learning algorithms include Active learning , classification and regression.
+
+$ python questions.py corpus
+Query: When was Python 3.0 released?
+Python 3.0 was released on 3 December 2008.
+
+$ python questions.py corpus
+Query: How do neurons connect in a neural network?
+Neurons of one layer connect only to neurons of the immediately preceding and immediately following layers.
+</code></pre></div></div>
+
+<a data-id="" id="background" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/summer/ai/2021/projects/6/questions/#background">Background</a></h2>
+
+<p>Question Answering (QA) is a field within natural language processing focused on designing systems that can answer questions. Among the more famous question answering systems is <a href="https://en.wikipedia.org/wiki/Watson_(computer)">Watson</a>, the IBM computer that competed (and won) on <em>Jeopardy!</em>. A question answering system of Watson’s accuracy requires enormous complexity and vast amounts of data, but in this problem, we’ll design a very simple question answering system based on inverse document frequency.</p>
+
+<p>Our question answering system will perform two tasks: document retrieval and passage retrieval. Our system will have access to a corpus of text documents. When presented with a query (a question in English asked by the user), document retrieval will first identify which document(s) are most relevant to the query. Once the top documents are found, the top document(s) will be subdivided into passages (in this case, sentences) so that the most relevant passage to the question can be determined.</p>
+
+<p>How do we find the most relevant documents and passages? To find the most relevant documents, we’ll use tf-idf to rank documents based both on term frequency for words in the query as well as inverse document frequency for words in the query. Once we’ve found the most relevant documents, there <a href="https://groups.csail.mit.edu/infolab/publications/Tellex-etal-SIGIR03.pdf">many possible metrics</a> for scoring passages, but we’ll use a combination of inverse document frequency and a query term density measure (described in the Specification).</p>
+
+<p>More sophisticated question answering systems might employ other strategies (analyzing the type of question word used, looking for synonyms of query words, <a href="https://en.wikipedia.org/wiki/Lemmatisation">lemmatizing</a> to handle different forms of the same word, etc.) but we’ll leave those sorts of improvements as exercises for you to work on if you’d like to after you’ve completed this project!</p>
+
+<a data-id="" id="getting-started" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/summer/ai/2021/projects/6/questions/#getting-started">Getting Started</a></h2>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Download the distribution code from <a href="https://cdn.cs50.net/ai/2020/spring/projects/6/questions.zip">https://cdn.cs50.net/ai/2020/spring/projects/6/questions.zip</a> and unzip it.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Inside of the <code class="language-plaintext highlighter-rouge">questions</code> directory, run <code class="language-plaintext highlighter-rouge">pip3 install -r requirements.txt</code> to install this project’s dependency: <code class="language-plaintext highlighter-rouge">nltk</code> for natural language processing.</li>
+</ul>
+
+<a data-id="" id="understanding" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/summer/ai/2021/projects/6/questions/#understanding">Understanding</a></h2>
+
+<p>First, take a look at the documents in <code class="language-plaintext highlighter-rouge">corpus</code>. Each is a text file containing the contents of a Wikipedia page. Our goal is to write an AI that can find sentences from these files that are relevant to a user’s query. You are welcome and encouraged to add, remove, or modify files in the corpus if you’d like to experiment with answering queries based on a different corpus of documents. Just be sure each file in the corpus is a text file ending in <code class="language-plaintext highlighter-rouge">.txt</code>.</p>
+
+<p>Now, take a look at <code class="language-plaintext highlighter-rouge">questions.py</code>. The global variable <code class="language-plaintext highlighter-rouge">FILE_MATCHES</code> specifies how many files should be matched for any given query. The global variable <code class="language-plaintext highlighter-rouge">SENTENCES_MATCHES</code> specifies how many sentences within those files should be matched for any given query. By default, each of these values is 1: our AI will find the top sentence from the top matching document as the answer to our question. You are welcome and encouraged to experiment with changing these values.</p>
+
+<p>In the <code class="language-plaintext highlighter-rouge">main</code> function, we first load the files from the corpus directory into memory (via the <code class="language-plaintext highlighter-rouge">load_files</code> function). Each of the files is then tokenized (via <code class="language-plaintext highlighter-rouge">tokenize</code>) into a list of words, which then allows us to compute inverse document frequency values for each of the words (via <code class="language-plaintext highlighter-rouge">compute_idfs</code>). The user is then prompted to enter a query. The <code class="language-plaintext highlighter-rouge">top_files</code> function identifies the files that are the best match for the query. From those files, sentences are extracted, and the <code class="language-plaintext highlighter-rouge">top_sentences</code> function identifies the sentences that are the best match for the query.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">load_files</code>, <code class="language-plaintext highlighter-rouge">tokenize</code>, <code class="language-plaintext highlighter-rouge">compute_idfs</code>, <code class="language-plaintext highlighter-rouge">top_files</code>, and <code class="language-plaintext highlighter-rouge">top_sentences</code> functions are left to you!</p>
+
+<a data-id="" id="specification" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/summer/ai/2021/projects/6/questions/#specification">Specification</a></h2>
+
+<p>Complete the implementation of <code class="language-plaintext highlighter-rouge">load_files</code>, <code class="language-plaintext highlighter-rouge">tokenize</code>, <code class="language-plaintext highlighter-rouge">compute_idfs</code>, <code class="language-plaintext highlighter-rouge">top_files</code>, and <code class="language-plaintext highlighter-rouge">top_sentences</code> in <code class="language-plaintext highlighter-rouge">questions.py</code>.</p>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="language-plaintext highlighter-rouge">load_files</code> function should accept the name of a <code class="language-plaintext highlighter-rouge">directory</code> and return a dictionary mapping the filename of each <code class="language-plaintext highlighter-rouge">.txt</code> file inside that directory to the file’s contents as a string.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Your function should be platform-independent: that is to say, it should work regardless of operating system. Note that on macOS, the <code class="language-plaintext highlighter-rouge">/</code> character is used to separate path components, while the <code class="language-plaintext highlighter-rouge">\</code> character is used on Windows. Use <a href="https://docs.python.org/3/library/os.html"><code class="language-plaintext highlighter-rouge">os.sep</code></a> and <a href="https://docs.python.org/3/library/os.path.html#os.path.join"><code class="language-plaintext highlighter-rouge">os.path.join</code></a> as needed instead of using your platform’s specific separator character.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>In the returned dictionary, there should be one key named for each <code class="language-plaintext highlighter-rouge">.txt</code> file in the directory. The value associated with that key should be a string (the result of <code class="language-plaintext highlighter-rouge">read</code>ing the corresonding file).</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Each key should be just the filename, without including the directory name. For example, if the directory is called <code class="language-plaintext highlighter-rouge">corpus</code> and contains files <code class="language-plaintext highlighter-rouge">a.txt</code> and <code class="language-plaintext highlighter-rouge">b.txt</code>, the keys should be <code class="language-plaintext highlighter-rouge">a.txt</code> and <code class="language-plaintext highlighter-rouge">b.txt</code> and not <code class="language-plaintext highlighter-rouge">corpus/a.txt</code> and <code class="language-plaintext highlighter-rouge">corpus/b.txt</code>.</li>
+    </ul>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="language-plaintext highlighter-rouge">tokenize</code> function should accept a <code class="language-plaintext highlighter-rouge">document</code> (a string) as input, and return a list of all of the words in that document, in order and lowercased.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>You should use <code class="language-plaintext highlighter-rouge">nltk</code>’s <a href="https://www.nltk.org/api/nltk.tokenize.html#nltk.tokenize.punkt.PunktLanguageVars.word_tokenize"><code class="language-plaintext highlighter-rouge">word_tokenize</code></a> function to perform tokenization.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>All words in the returned list should be lowercased.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Filter out punctuation and stopwords (common words that are unlikely to be useful for querying). Punctuation is defined as any character in <code class="language-plaintext highlighter-rouge">string.punctuation</code> (after you <code class="language-plaintext highlighter-rouge">import string</code>). Stopwords are defined as any word in <code class="language-plaintext highlighter-rouge">nltk.corpus.stopwords.words("english")</code>.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>If a word appears multiple times in the <code class="language-plaintext highlighter-rouge">document</code>, it should also appear multiple times in the returned list (unless it was filtered out).</li>
+    </ul>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="language-plaintext highlighter-rouge">compute_idfs</code> function should accept a dictionary of <code class="language-plaintext highlighter-rouge">documents</code> and return a new dictionary mapping words to their IDF (inverse document frequency) values.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Assume that <code class="language-plaintext highlighter-rouge">documents</code> will be a dictionary mapping names of documents to a list of words in that document.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The returned dictionary should map every word that appears in at least one of the documents to its inverse document frequency value.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Recall that the inverse document frequency of a word is defined by taking the natural logarithm of the number of documents divided by the number of documents in which the word appears.</li>
+    </ul>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="language-plaintext highlighter-rouge">top_files</code> function should, given a <code class="language-plaintext highlighter-rouge">query</code> (a set of words), <code class="language-plaintext highlighter-rouge">files</code> (a dictionary mapping names of files to a list of their words), and <code class="language-plaintext highlighter-rouge">idfs</code> (a dictionary mapping words to their IDF values), return a list of the filenames of the the <code class="language-plaintext highlighter-rouge">n</code> top files that match the query, ranked according to tf-idf.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The returned list of filenames should be of length <code class="language-plaintext highlighter-rouge">n</code> and should be ordered with the best match first.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Files should be ranked according to the sum of tf-idf values for any word in the query that also appears in the file. Words in the query that do not appear in the file should not contribute to the file’s score.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Recall that tf-idf for a term is computed by multiplying the number of times the term appears in the document by the IDF value for that term.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>You may assume that <code class="language-plaintext highlighter-rouge">n</code> will not be greater than the total number of files.</li>
+    </ul>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="language-plaintext highlighter-rouge">top_sentences</code> function should, given a <code class="language-plaintext highlighter-rouge">query</code> (a set of words), <code class="language-plaintext highlighter-rouge">sentences</code> (a dictionary mapping sentences to a list of their words), and <code class="language-plaintext highlighter-rouge">idfs</code> (a dictionary mapping words to their IDF values), return a list of the <code class="language-plaintext highlighter-rouge">n</code> top sentences that match the query, ranked according to IDF.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The returned list of sentences should be of length <code class="language-plaintext highlighter-rouge">n</code> and should be ordered with the best match first.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Sentences should be ranked according to “matching word measure”: namely, the sum of IDF values for any word in the query that also appears in the sentence. Note that term frequency should not be taken into account here, only inverse document frequency.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>If two sentences have the same value according to the matching word measure, then sentences with a higher “query term density” should be preferred. Query term density is defined as the proportion of words in the sentence that are also words in the query. For example, if a sentence has 10 words, 3 of which are in the query, then the sentence’s query term density is <code class="language-plaintext highlighter-rouge">0.3</code>.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>You may assume that <code class="language-plaintext highlighter-rouge">n</code> will not be greater than the total number of sentences.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>You should not modify anything else in <code class="language-plaintext highlighter-rouge">questions.py</code> other than the functions the specification calls for you to implement, though you may write additional functions, add new global constant variables, and/or import other Python standard library modules.</p>
+
+<a data-id="" id="hints" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/summer/ai/2021/projects/6/questions/#hints">Hints</a></h2>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>In the <code class="language-plaintext highlighter-rouge">compute_idfs</code> function, recall that the <code class="language-plaintext highlighter-rouge">documents</code> input will be represented as a dictionary mapping document names to a list of words in each of those documents. The document names themselves are irrelevant to the calculation of IDF values. That is to say, changing any or all of the document names should not change the IDF values that are computed.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Different sources may use different formulas to calculate term frequency and inverse document frequency than the ones described in lecture and given in this specification. Be sure that the formulas you implement are the ones described in this specification.</li>
+</ul>
+
+<a data-id="" id="how-to-submit" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/summer/ai/2021/projects/6/questions/#how-to-submit">How to Submit</a></h2>
+
+<ol>
+  <li>Download your <code class="language-plaintext highlighter-rouge">questions.py</code> file (which contains your implementation of the elements of the specification of this project).</li>
+  <li>Go to <a href="https://www.gradescope.com/courses/255306">CSCI S-80’s Gradescope page</a>.</li>
+  <li>Click <strong>Project 6: Questions</strong>.</li>
+  <li>Drag and drop your downloaded file to the area that says “Drag &amp; Drop”.</li>
+  <li>Click <strong>Upload</strong>.</li>
+</ol>
+
+<p>You should see a message that says “Project 6: Questions submitted successfully!” Contact your teaching fellow if not!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="./Questions - CSCI S-80_files/page.js.download"></script>
+
+    
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
